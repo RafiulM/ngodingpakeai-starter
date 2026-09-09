@@ -1,0 +1,10 @@
+node_modules
+.next
+.data
+package-lock.json
+drizzle/meta
+next-env.d.ts
+playwright-report
+test-results
+*.tsbuildinfo
+.env*
