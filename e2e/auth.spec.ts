@@ -9,6 +9,9 @@ test("anonymous visitors cannot access the protected app", async ({
   await expect(
     page.getByRole("heading", { name: "Welcome back" }),
   ).toBeVisible();
+  // The root has no page: anonymous visitors land on sign-in.
+  await page.goto("/");
+  await expect(page).toHaveURL(/\/sign-in$/);
   const session = await request.get("/api/auth/get-session");
   expect(await session.json()).toBeNull();
 });
@@ -30,10 +33,16 @@ test("signup, persisted session, signout, rejected password, and signin work", a
     .click();
   await expect(page).toHaveURL(/\/app$/);
   await expect(
-    page.getByRole("heading", { name: "Welcome, Ada Builder." }),
+    page.getByRole("button", { name: "Sign out", exact: true }),
   ).toBeVisible();
   await page.reload();
-  await expect(page.getByText(`Signed in as ${email}`)).toBeVisible();
+  await expect(page).toHaveURL(/\/app$/);
+  await expect(
+    page.getByRole("button", { name: "Sign out", exact: true }),
+  ).toBeVisible();
+  // Signed-in visitors skip the root too.
+  await page.goto("/");
+  await expect(page).toHaveURL(/\/app$/);
   const cookies = await context.cookies();
   expect(
     cookies.some(
@@ -78,24 +87,13 @@ test("auth rejects cross-origin requests and invalid signup data", async ({
   expect(invalid.status()).toBeLessThan(500);
 });
 
-test("welcome and auth pages fit a narrow screen and prompt copying works", async ({
-  page,
-  context,
-}) => {
-  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+test("auth pages fit a narrow screen", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/");
+  await page.goto("/sign-in");
   await expect(
-    page.getByRole("heading", { name: "A small base. A world of ideas." }),
+    page.getByRole("heading", { name: "Welcome back" }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Copy prompt" }).click();
-  await expect(
-    page.getByRole("button", { name: "Copied", exact: true }),
-  ).toBeVisible();
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toContain(
-    "Read AGENTS.md",
-  );
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= window.innerWidth,

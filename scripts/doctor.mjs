@@ -1,5 +1,5 @@
-import { existsSync } from "node:fs";
-import { resolve } from "node:path";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { relative, resolve } from "node:path";
 import { Pool } from "pg";
 import { assertNode, loadEnvironment, root } from "./lib.mjs";
 import { databaseUrl, databaseError } from "./postgres.mjs";
@@ -83,6 +83,28 @@ await check("Context7 configuration files", () => {
     if (!existsSync(resolve(root, path))) throw new Error(`Missing ${path}`);
   }
 });
+
+// A reminder, not a failure: fresh copies must pass, but a finished app should
+// not ship the starter's blank canvas. build-feature removes it with the app's
+// first real screen.
+function placeholders(dir) {
+  const found = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const path = resolve(dir, entry.name);
+    if (entry.isDirectory()) found.push(...placeholders(path));
+    else if (
+      /\.(tsx|jsx)$/.test(entry.name) &&
+      readFileSync(path, "utf8").includes("data-starter-placeholder")
+    )
+      found.push(relative(root, path));
+  }
+  return found;
+}
+const remaining = placeholders(resolve(root, "src"));
+if (remaining.length)
+  console.warn(
+    `! Starter placeholder still present: ${remaining.join(", ")}. Replace it with your app's first screen (build-feature skill), then delete e2e/starter.spec.ts.`,
+  );
 console.log(
   "\nContext7 is checked inside your AI editor; this command checks local configuration and PostgreSQL only.",
 );

@@ -19,7 +19,7 @@ npm run setup
 npm run dev
 ```
 
-Open [localhost:3000](http://localhost:3000) and create your own account.
+Open [localhost:3000](http://localhost:3000); it sends you to sign-in, where you create your own account.
 
 Setup installs pinned dependencies, generates a private auth secret and database password, starts PostgreSQL 17 through `compose.dev.yaml` in Docker, waits for it to be healthy, applies migrations, and checks the connection. Values live in ignored `.env.local`; repeated setup preserves existing values and database records.
 
@@ -92,7 +92,7 @@ Tests require Docker even if your app uses a hosted database. They launch a uniq
 ## Customize and extend
 
 - Identity: `starter.config.json` and `src/config/site.ts`.
-- Your first feature: `src/app/(protected)/app/page.tsx`.
+- Your first feature: replace the placeholder in `src/app/(protected)/app/page.tsx` (the root `/` only redirects there). `npm run doctor` reminds you until it is gone.
 - UI tokens: `src/app/globals.css`.
 - Tables: `src/db/schema/` (export tables from `index.ts`); use `pgTable`, PostgreSQL booleans, and timestamps.
 - Add UI primitives: `npx shadcn@4.21.0 add dialog`.

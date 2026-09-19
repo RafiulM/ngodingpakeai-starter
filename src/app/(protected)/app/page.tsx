@@ -1,5 +1,8 @@
+// STARTER PLACEHOLDER. Replace this page with your app's first screen. The
+// data-starter-placeholder attribute below lets `npm run doctor` remind you
+// while it is still here; delete e2e/starter.spec.ts along with it.
 import type { Metadata } from "next";
-import { ArrowUpRight, Check, Plus, ShieldCheck } from "lucide-react";
+import { Check, Plus, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { hasPermission, requireSession } from "@/lib/session";
 import { CopyPrompt } from "@/components/copy-prompt";
@@ -28,6 +31,7 @@ export default async function AppPage() {
       <section
         className="mt-9 rounded-2xl border border-dashed bg-card px-6 py-10 sm:px-10"
         aria-labelledby="blank-canvas"
+        data-starter-placeholder
       >
         <div className="mb-6 flex size-12 items-center justify-center rounded-xl border bg-muted">
           <Plus className="size-5 text-muted-foreground" aria-hidden="true" />
@@ -57,17 +61,9 @@ export default async function AppPage() {
           </Button>
         </div>
       )}
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm">
-        <span className="break-all text-muted-foreground">
-          Signed in as {user.email}
-        </span>
-        <Button variant="ghost" asChild size="sm">
-          <Link href="/">
-            Back to the starter
-            <ArrowUpRight aria-hidden="true" />
-          </Link>
-        </Button>
-      </div>
+      <p className="mt-6 break-all text-sm text-muted-foreground">
+        Signed in as {user.email}
+      </p>
     </div>
   );
 }

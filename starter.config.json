@@ -2,6 +2,6 @@
   "id": "postgres",
   "name": "Base Postgres",
   "description": "An AI-friendly foundation with Drizzle and PostgreSQL.",
-  "baseVersion": "0.1.0",
+  "baseVersion": "0.2.0",
   "database": "postgresql"
 }

@@ -14,6 +14,8 @@ Place pages in `src/app`; reuse `(protected)` for signed-in screens. Keep intera
 - Server-rendered reads may reuse services after `requireSession()` at the data boundary. Keep domain queries out of pages and route handlers. Use API routes for ordinary browser mutations rather than adding a parallel Server Action flow.
 - Validate request bodies, IDs, and pagination before queries. Reject unknown or owner fields. For partial updates require an editable field. Reuse shared error responses; never return raw database exceptions.
 
+Definition of done for the first feature: the signed-in app page no longer carries the starter's blank canvas. Remove the `data-starter-placeholder` section (and the `CopyPrompt` usage if nothing else needs it), delete `e2e/starter.spec.ts`, and confirm `npm run doctor` prints no placeholder reminder. The root route only redirects; add a public landing page there only if the product needs one. Never ship the placeholder as if it were the app.
+
 Add each table to `src/db/schema/<table>.ts` and export it from `src/db/schema/index.ts`. Import foreign-key dependencies directly from sibling files. Keep Better Auth's core tables intact. Generate, inspect, and apply a new migration. Store only requested data; do not seed demo users or silently delete the Notes example's saved records.
 
 Reuse `src/components/ui`, `cn()`, and CSS tokens. Prefer semantic controls, explicit labels, visible focus, and responsive layouts. Use Motion where helpful and preserve `MotionConfig reducedMotion="user"`.

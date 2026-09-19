@@ -5,7 +5,7 @@ One app, one package, one PostgreSQL database. A monorepo or shared package laye
 ```text
 src/
   app/
-    page.tsx                    starter welcome and first prompt
+    page.tsx                    redirects to /app or /sign-in
     (auth)/                     sign-in and sign-up pages
     (protected)/app/page.tsx     blank, authenticated application
     api/auth/[...all]/route.ts   Better Auth's HTTP endpoints
@@ -14,6 +14,7 @@ src/
   components/
     ui/                         shadcn/ui source, owned by this project
     auth-form.tsx               interactive signin/signup form
+    copy-prompt.tsx             used only by the placeholder app page
     providers.tsx               reduced-motion configuration
   config/site.ts                shared identity and app path
   db/
@@ -62,7 +63,7 @@ Schema updates use `db:generate` then `db:migrate`. SQL and metadata must travel
 
 Server Components are the default. Client components are small interactive boundaries. Tailwind v4 tokens live in `globals.css`; shadcn components are normal editable source files. Motion respects reduced-motion preferences. System fonts avoid a build-time dependency on a font CDN.
 
-The base's welcome and blank app pages are replaceable. Reuse auth, setup, database, and UI when adding dashboard or chatbot features. Do not put feature conditionals throughout the base: create a derivative and implement that app directly.
+The root route only redirects (signed in → `/app`, otherwise `/sign-in`); there is no public landing page to forget. The signed-in app page is the single starter placeholder, marked with `data-starter-placeholder`: `npm run doctor` reminds you while it exists, `e2e/starter.spec.ts` covers it and is deleted with it, and the other e2e specs assert behavior rather than starter copy. Reuse auth, setup, database, and UI when adding dashboard or chatbot features. Do not put feature conditionals throughout the base: create a derivative and implement that app directly.
 
 ## Dependency compatibility
 

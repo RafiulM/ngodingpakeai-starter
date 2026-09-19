@@ -62,7 +62,7 @@ Keep each Drizzle table in `src/db/schema/<table>.ts` and export it from `src/db
 
 ## Verify and hand off
 
-Run `npm run check` and `npm run build` for substantive changes. For setup or Compose changes also run `npm run test:setup` to verify a fresh copy and data persistence. For auth/routing/session changes run `npm run test:e2e` after the build. Add tests for real behavior or data isolation when extending the app. Review the UI at narrow and wide widths when changing layout.
+Run `npm run check` and `npm run build` for substantive changes. For setup or Compose changes also run `npm run test:setup` to verify a fresh copy and data persistence. For auth/routing/session changes run `npm run test:e2e` after the build. Add tests for real behavior or data isolation when extending the app. Review the UI at narrow and wide widths when changing layout. Once the app has a real first screen, the starter placeholder (`data-starter-placeholder` in the signed-in app page) and `e2e/starter.spec.ts` must be gone; `npm run doctor` reminds you while they remain.
 
 Report the result, how to use it, checks run, and any remaining limitation. Keep dashboard-specific, chatbot-specific, billing, and provider-specific features in derivatives unless the user asks to add them to this base. Do not deploy, purchase services, or choose an AI provider just because this is an AI-friendly starter.
 
